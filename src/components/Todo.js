@@ -9,6 +9,12 @@ const Todo = () => {
     const dispatch = useDispatch();
     const list = useSelector((state) => state.todoReducers.list)
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(addToDo(inputData))
+        setInputData("")
+    }
+
     return (
         <>
             <div className="main-div">
@@ -17,7 +23,7 @@ const Todo = () => {
                         <figure>
                             <figcaption>Add the list here</figcaption>
                         </figure>
-                        <div className="add-Items">
+                        <form className="add-Items" onSubmit={handleSubmit}>
                             <input type="text"
                                    placeholder="Add item"
                                    value={inputData}
@@ -27,11 +33,8 @@ const Todo = () => {
                             />
                             <i className="fa fa-plus add-btn"
                                title="Add item"
-                               onClick={() => {
-                                   dispatch(addToDo(inputData))
-                                   setInputData("")
-                               }}/>
-                        </div>
+                               onClick={handleSubmit}/>
+                        </form>
                     </div>
                     <div className="output-data">
                         <figure>
