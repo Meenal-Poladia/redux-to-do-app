@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addToDo, deleteToDo, removeToDo} from "../actions";
+import {addToDo, deleteToDo} from "../actions";
 import "../reducers/todoReducers";
 
 const Todo = () => {
@@ -11,8 +11,12 @@ const Todo = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addToDo(inputData))
-        setInputData("")
+        if(inputData.trim().length === 0) return
+        inputData.split(",").forEach(item => {
+            dispatch(addToDo(item.trim()))
+            setInputData("")
+        })
+
     }
 
     return (
@@ -42,10 +46,10 @@ const Todo = () => {
                         </figure>
                         <div className="showItems">
                             {
-                                list.map((item) => {
+                                list.map((item, index) => {
                                     return (
                                         <div className="eachItem"
-                                             key={item.id}
+                                             key={index}
                                         >
                                             <h3>{item.data}</h3>
                                             <div className="todo-btn">
