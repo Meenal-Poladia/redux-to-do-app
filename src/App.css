@@ -20,8 +20,8 @@ html {
 }
 
 .child-div {
+  display: flex;
   text-align: center;
-  margin-top: 12rem;
 }
 
 .child-div figure img {
@@ -36,9 +36,25 @@ html {
   text-transform: capitalize;
 }
 
+.input-data {
+  padding: 10px;
+  min-width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.output-data {
+  padding: 10px;
+  min-width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 input {
   /* display: block; */
-  min-width: 40rem;
+  min-width: 30rem;
   height: 3.4rem;
   padding: 2rem 1.2rem;
   font-size: 1.8rem;
@@ -69,7 +85,7 @@ input {
   transition: all 0.2s linear;
 }
 input:focus {
-  -webkit-box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
+  -webkit-boxshadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
 }
 
@@ -104,17 +120,20 @@ input:focus {
 }
 
 .showItems {
-  margin-top: 3rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .eachItem {
   background: #fff;
   padding: 1.2rem 1rem;
   border-radius: 0.5rem;
-  margin-bottom: 0.7rem;
-  margin-left: 1rem;
-  min-width: 40rem;
+  /* margin-bottom: 0.7rem; */
+  /* margin-left: 1rem; */
+  margin-top: 2rem;
+  width: 30rem;
   word-break: break-word;
   background: rgb(85, 41, 220);
   display: flex;
