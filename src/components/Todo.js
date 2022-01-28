@@ -6,6 +6,7 @@ import "../reducers/todoReducers";
 const Todo = () => {
 
     const [inputData, setInputData] = useState("");
+    const [searchTerm, setSearchTerm] = useState("")
     const dispatch = useDispatch();
     const list = useSelector((state) => state.todoReducers.list)
 
@@ -16,7 +17,10 @@ const Todo = () => {
             dispatch(addToDo(item.trim()))
             setInputData("")
         })
+    }
 
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value)
     }
 
     return (
@@ -44,9 +48,16 @@ const Todo = () => {
                         <figure>
                             <figcaption>My Todo List</figcaption>
                         </figure>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            onChange={handleSearch}
+                        />
                         <div className="showItems">
                             {
-                                list.map((item, index) => {
+                                list
+                                    .filter(item => item.data.toLowerCase().includes(searchTerm.toLowerCase()))
+                                    .map((item, index) => {
                                     return (
                                         <div className="eachItem"
                                              key={index}
