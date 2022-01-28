@@ -1,7 +1,8 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {addToDo, deleteToDo} from "../actions";
+import {addToDo, deleteToDo, setListType, updateTodo} from "../actions";
 import "../reducers/todoReducers";
+import InformationButton from "./InformationButton";
 
 const Todo = () => {
 
@@ -9,6 +10,11 @@ const Todo = () => {
     const [searchTerm, setSearchTerm] = useState("")
     const dispatch = useDispatch();
     const list = useSelector((state) => state.todoReducers.list)
+    const listType = useSelector((state) => state.todoReducers.listType)
+
+    useEffect(() => {
+        dispatch(setListType("All"));
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,6 +27,48 @@ const Todo = () => {
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value)
+    }
+
+    const handleCheck = (e, id) => {
+        dispatch(updateTodo(e.target.checked, id))
+    }
+
+    const renderList = list => {
+        return list
+            .filter(item => {
+                if (listType === "All") {
+                    return true
+                } else if(listType === "Completed") {
+                    return item.isCompleted
+                } else {
+                    return !item.isCompleted
+                }
+            })
+            .filter(item => item.data.toLowerCase().includes(searchTerm.toLowerCase()))
+            .map((item) => {
+                return (
+                    <div className="eachItem"
+                         key={item.id}
+                    >
+                        <input
+                            type="checkbox"
+                            id={item.id}
+                            name="Todo"
+                            onChange={(e) => handleCheck(e, item.id)}
+                            checked={item.isCompleted}
+                        />
+                        <label htmlFor={item.data}/>
+                        <h3>{item.data}</h3>
+                        <div className="todo-btn">
+                            <i className="far fa-trash-alt add-btn"
+                               title="Delete Item"
+                               onClick={() => {
+                                   dispatch(deleteToDo(item.id))
+                               }}/>
+                        </div>
+                    </div>
+                )
+            })
     }
 
     return (
@@ -53,28 +101,13 @@ const Todo = () => {
                             placeholder="Search..."
                             onChange={handleSearch}
                         />
+                        <div className="info-btns-group">
+                            <InformationButton type="button" buttonLabel="All"/>
+                            <InformationButton type="button" buttonLabel="Completed"/>
+                            <InformationButton type="button" buttonLabel="Pending"/>
+                        </div>
                         <div className="showItems">
-                            {
-                                list
-                                    .filter(item => item.data.toLowerCase().includes(searchTerm.toLowerCase()))
-                                    .map((item, index) => {
-                                    return (
-                                        <div className="eachItem"
-                                             key={index}
-                                        >
-                                            <h3>{item.data}</h3>
-                                            <div className="todo-btn">
-                                                <i className="far fa-trash-alt add-btn"
-                                                   title="Delete Item"
-                                                   onClick={() => {
-                                                       dispatch(deleteToDo(item.id))
-                                                   }}/>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-
+                            {renderList(list)}
                         </div>
                     </div>
                 </div>

@@ -92,6 +92,26 @@ input[type="text"]:focus {
   box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
 }
 
+.info-btn {
+  border: 2px solid black;
+  border-radius: 6px;
+  width: fit-content;
+  padding: 5px 15px;
+  font-size: 18px;
+  font-weight: bolder;
+  background: #f498f4e8;
+  cursor: pointer;
+}
+
+.info-btn:disabled {
+  pointer-events: none;
+}
+
+.info-btns-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
 
 .todo-btn {
   width: 5rem;
